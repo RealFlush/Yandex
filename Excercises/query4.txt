@@ -1,0 +1,72 @@
+--Сделано на PostgreSQL 8.4
+drop table if exists Employees;
+ create table Employees (idEmpl serial primary key, idDepartment integer, idPosition integer, surname text);
+
+drop table if exists Departments; 
+ create table Departments (idDepartment serial primary key , NameDep text);
+ drop table if exists Positions;
+ create table Positions (idPosition serial primary key, NamePos text);
+
+ insert into Positions (NamePos) values ('Economists');
+ insert into Positions (NamePos) values ('Jurists');
+ insert into Positions (NamePos)values ('Programmers');
+
+ insert into Departments (NameDep) values ('Fire');
+ insert into Departments (NameDep) values ('Police');
+ insert into Departments (NameDep) values ('Sport');
+ insert into Departments (NameDep) values ('Environment');
+ insert into Departments (NameDep) values ('Health');
+
+ insert into Employees (idDepartment, idPosition, surname) values (1,1, 'Smith');
+ insert into Employees (idDepartment, idPosition, surname) values (2,2, 'Smith1');
+ insert into Employees (idDepartment, idPosition, surname) values (3,3, 'Smith2');
+ insert into Employees (idDepartment, idPosition, surname) values (4,1, 'Smith3');
+ insert into Employees (idDepartment, idPosition, surname) values (5,2, 'Smith4');
+ insert into Employees (idDepartment, idPosition, surname) values (1,3, 'Smith5');
+ insert into Employees (idDepartment, idPosition, surname) values (2,1, 'Smith6');
+ insert into Employees (idDepartment, idPosition, surname) values (3,2, 'Smith7');
+ insert into Employees (idDepartment, idPosition, surname) values (4,1, 'Smith8');
+ insert into Employees (idDepartment, idPosition, surname) values (5,2, 'Smith9');
+ insert into Employees (idDepartment, idPosition, surname) values (1,3, 'Smith10');
+ insert into Employees (idDepartment, idPosition, surname) values (2,1, 'Smith11');
+ insert into Employees (idDepartment, idPosition, surname) values (3,2, 'Smith12');
+ insert into Employees (idDepartment, idPosition, surname) values (4,3, 'Smith13');
+ insert into Employees (idDepartment, idPosition, surname) values (5,1, 'Smith14');
+ insert into Employees (idDepartment, idPosition, surname) values (1,2, 'Smith15');
+ insert into Employees (idDepartment, idPosition, surname) values (2,3, 'Smith16');
+ insert into Employees (idDepartment, idPosition, surname) values (3,1, 'Smith17');
+ insert into Employees (idDepartment, idPosition, surname) values (4,2, 'Smith18');
+ insert into Employees (idDepartment, idPosition, surname) values (5,3, 'Smith19');
+ insert into Employees (idDepartment, idPosition, surname) values (1,1, 'Smith20');
+ insert into Employees (idDepartment, idPosition, surname) values (2,2, 'Smith21');
+ insert into Employees (idDepartment, idPosition, surname) values (3,3, 'Smith22');
+ insert into Employees (idDepartment, idPosition, surname) values (4,1, 'Smith23');
+ insert into Employees (idDepartment, idPosition, surname) values (5,2, 'Smith24');
+ insert into Employees (idDepartment, idPosition, surname) values (1,3, 'Smith25');
+ insert into Employees (idDepartment, idPosition, surname) values (2,1, 'Smith26');
+ insert into Employees (idDepartment, idPosition, surname) values (3,2, 'Smith27');
+ insert into Employees (idDepartment, idPosition, surname) values (4,3, 'Smith28');
+ insert into Employees (idDepartment, idPosition, surname) values (5,1, 'Smith29');
+ insert into Employees (idDepartment, idPosition, surname) values (5,3, 'Smith30');
+ insert into Employees (idDepartment, idPosition, surname) values (5,3, 'Smith31');
+ insert into Employees (idDepartment, idPosition, surname) values (5,3, 'Smith32');
+ insert into Employees (idDepartment, idPosition, surname) values (5,3, 'Smith33');
+
+ --Напишите SQL-запрос, выводящий список отделов, в которых работает меньше пяти программистов.
+SELECT 
+   departments.namedep,
+   count(positions.idposition) as Programmers 
+
+FROM 
+  public.departments, 
+  public.employees, 
+  public.positions
+WHERE 
+  employees.iddepartment = departments.iddepartment AND
+  positions.idposition = employees.idposition
+  and positions.idposition=3
+  group by
+   employees.iddepartment, 
+  departments.iddepartment, 
+  departments.namedep 
+ having count(positions.idposition)<5

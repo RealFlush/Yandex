@@ -1,0 +1,54 @@
+--Сделано на PostgreSQL 8.4
+drop table if exists Test;
+ create table Test (id serial primary key, Namex text, Coeff integer);
+
+ insert into Test (Namex, Coeff) values ('Магнолия',61);
+ insert into Test (Namex, Coeff) values ('Купальница',536);
+ insert into Test (Namex, Coeff) values ('Лютик',466);
+ insert into Test (Namex, Coeff) values ('Ромашка',490);
+ insert into Test (Namex, Coeff) values ('Шиповник',442);
+ insert into Test (Namex, Coeff) values ('Одуванчик',408);
+ insert into Test (Namex, Coeff) values ('Астра',449);
+ insert into Test (Namex, Coeff) values ('Бегония',235);
+ insert into Test (Namex, Coeff) values ('Василек',374);
+ insert into Test (Namex, Coeff) values ('Гвоздика',930);
+ insert into Test (Namex, Coeff) values ('Гиацинт',138);
+ insert into Test (Namex, Coeff) values ('Гербер',6);
+ insert into Test (Namex, Coeff) values ('Гладиолус',139);
+ insert into Test (Namex, Coeff) values ('Гортензия',5);
+ insert into Test (Namex, Coeff) values ('Дельфиниум',600);
+ insert into Test (Namex, Coeff) values ('Жасмин',84);
+ insert into Test (Namex, Coeff) values ('Ирис',763);
+ insert into Test (Namex, Coeff) values ('Крокус',580);
+ insert into Test (Namex, Coeff) values ('Лилия',109);
+ insert into Test (Namex, Coeff) values ('Мак',7);
+ insert into Test (Namex, Coeff) values ('Мимоза',209);
+ insert into Test (Namex, Coeff) values ('Нарцисс',174);
+ insert into Test (Namex, Coeff) values ('Орхидея',303);
+ insert into Test (Namex, Coeff) values ('Пион',458);
+ insert into Test (Namex, Coeff) values ('Подснежник',167);
+ insert into Test (Namex, Coeff) values ('Роза',510);
+ insert into Test (Namex, Coeff) values ('Сирень',54);
+ insert into Test (Namex, Coeff) values ('Тюльпан',301);
+ insert into Test (Namex, Coeff) values ('Хризантема',394);
+ insert into Test (Namex, Coeff) values ('Шалфей',513);
+ insert into Test (Namex, Coeff) values ('Юнона',446);
+ insert into Test (Namex, Coeff) values ('Ятрышник',46);
+ insert into Test (Namex, Coeff) values ('Якобиния',0);
+ insert into Test (Namex, Coeff) values ('Ясколка',125);
+
+
+ --Нужно сортировать таблицу по полю Name и вывести список пар последовательных строк, для которых выполняется условие
+ --LEN(Name1) < LEN(Name2) AND Coeff1 < Coeff2
+--drop table if exists temp_table;
+-- create temp table temp_table as (select id, char_length(Namex) as Dlina, Namex, Coeff from Test order by Namex) ;
+
+select * from(
+select t1.id as id1, t1.Namex as Name1, t1.Coeff as Coeff1, char_length(t1.Namex) as Dlina1,
+lead(t2.id) over (order by t2.namex) as id2, lead(t2.Namex) over (order by t2.namex) as Name2, lead(t2.Coeff) over (order by t2.namex) as Coeff2, lead(char_length(t2.Namex)) over (order by t2.namex) as Dlina2
+from Test t1
+inner join Test t2 using(id)
+--where
+--t1.Coeff<t2.Coeff --and t1.Dlina1<t2.Dlina2
+order by t1.Namex) x
+where Coeff1<Coeff2 and Dlina1<Dlina2
